@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guessjo Gametoru</title>
+  <link rel="icon" href="../../../Downloads/govicon.png" type="image/png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Gudea:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: url("../../../Downloads/gojo-manga.jpg") no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: rgb(15, 15, 15);
+    }
+
+    .holder {
+      width: 400px;
+      background-color: #a406e25b;
+      display: flex;
+      flex-direction: column;
+      border-radius: 9px;
+      padding: 20px;
+      text-align: center;
+    }
+    .holder h2 {
+      font-family: "Amatic SC", cursive;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .ctrl {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px 10px;
+      border-radius: 5px;
+      height: 40px;
+    }
+
+    .ctrl input {
+      width: 60px;
+      font-size: 18px;
+      text-align: center;
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .ctrl input::placeholder {
+      font-size: x-small;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .ctrl button {
+      position: relative;
+      padding: 5px 10px;
+      font-size: 20px;
+      color: white;
+      background-image: linear-gradient(to right, #e70104 0%, #e70104 50%, #008afa 50%, #008afa 100%);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      overflow: hidden;
+      font-family: "Amatic SC", cursive;
+      font-weight: 900;
+    }
+
+    .ctrl button::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: purple;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: width 1.2s ease, height 1.2s ease;
+      pointer-events: none;
+    }
+
+    .ctrl button:hover::after {
+      width: 400px;
+      height: 400px;
+      transition-delay: 0.3s;
+      transition-duration: 60s;
+    }
+
+    .ctrl button span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .result {
+      margin-top: 10px;
+    }
+
+    .result-img {
+      display: none;
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="contain" class="holder">
+    <h2>Choose a number between 0-9</h2>
+    <div class="ctrl">
+      <input id="numberInput" type="number" placeholder="CHOOSE" min="0" max="9" />
+      <button onclick="submitNumber()"><span>I'm Guessing...</span></button>
+    </div>
+    <div id="resultDisplay" class="result"></div>
+    <img id="victoryImage" class="result-img" src="../../../Downloads/nah id win.jpg" alt="Victory!" />
+    <img id="LosingImage" class="result-img" src="../../../Downloads/kitkat.jpg" alt="Loss!" />
+    <img id="dumbassImage" class="result-img" src="../../../Downloads/upthere.jpg" alt="Invalid Input!" />
+  </div>
+
+  <script>
+    function submitNumber() {
+      const value = parseInt(document.getElementById('numberInput').value);
+      const display = document.getElementById('resultDisplay');
+      const holder = document.getElementById('contain');
+      const images = {
+        win: document.getElementById('victoryImage'),
+        lose: document.getElementById('LosingImage'),
+        invalid: document.getElementById('dumbassImage')
+      };
+
+      const computerGuess = Math.floor(Math.random() * 10);
+      Object.values(images).forEach(img => img.style.display = 'none');
+      console.log(computerGuess)
+
+      if (isNaN(value) || value < 0 || value > 9) {
+        display.textContent = "Dumbass enter a valid number between 0 and 9.";
+        display.style.color = "red";
+        images.invalid.style.display = "block";
+        holder.style.height = "300px";
+      } else if (value === computerGuess) {
+        display.textContent = `🔵🫸🫷🔴🤞🤌🫴🟣 You alone are the honored one! I guessed ${computerGuess} also.`;
+        display.style.color = "white";
+        images.win.style.display = "block";
+        holder.style.height = "400px";
+      } else {
+        display.textContent = `💀🏯💀 🫸⛩️🫷 Aw Dang it! You guessed ${value}, but I guessed ${computerGuess}.`;
+        display.style.color = "white";
+        images.lose.style.display = "block";
+        holder.style.height = "400px";
+        images.lose.style.height = "250px";
+      }
+    }
+  </script>
+</body>
+</html>
